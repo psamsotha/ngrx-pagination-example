@@ -108,4 +108,3 @@ function getRandomDate() {
 
   return new Date(millis)
 }
-
