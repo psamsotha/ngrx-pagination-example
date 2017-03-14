@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for NgRx pagination blog article",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Samsotha <paulsamsotha@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "lokijs": "^1.4.3",
+    "morgan": "^1.8.1"
+  }
+}
