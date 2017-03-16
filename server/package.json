@@ -4,7 +4,8 @@
   "description": "Server for NgRx pagination blog article",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec/ --autotest --color",
+    "test:once": "jasmine-node spec/"
   },
   "author": "Paul Samsotha <paulsamsotha@gmail.com>",
   "license": "ISC",
@@ -13,5 +14,8 @@
     "express": "^4.15.2",
     "lokijs": "^1.4.3",
     "morgan": "^1.8.1"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
   }
 }
