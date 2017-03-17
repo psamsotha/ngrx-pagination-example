@@ -1,3 +1,4 @@
+/*
 let cleanMetadata = require('../../app/util').cleanMetadata
 
 
@@ -23,3 +24,4 @@ describe('util', () => {
     })
   })
 })
+*/
