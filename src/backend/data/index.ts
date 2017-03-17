@@ -4,6 +4,10 @@ import { Generator } from './generator';
 import { Express } from 'express'
 
 
+export { Page, PageRequest, Sort } from './paging';
+export { Repository, AbstractRepository } from './repository';
+
+
 export function configureDatabase(app: Express) {
   const db = new loki('example.db');
   const generator = new Generator();

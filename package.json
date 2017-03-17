@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "tsc",
     "tsc:watch": "tsc --w",
-    "server:test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/test/ --autotest --color\"",
+    "server:test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/backend/test/ --autotest --color\"",
     "server:test:once": "npm run tsc && jasmine-node test/",
     "serve": "tsc && concurrently \"tsc -w\" \"supervisor ./dist/server.js\""
   },

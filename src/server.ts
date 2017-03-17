@@ -3,7 +3,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as loki from 'lokijs';
 
-import { configureDatabase } from './backend/database';
+import { configureDatabase } from './backend/data';
 import { configureRoutes } from './backend/routes';
 
 const app = express();

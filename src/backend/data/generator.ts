@@ -32,7 +32,6 @@ const POSTS_PER_USER = 10;
 
 
 class User {
-  id: number;
   name: string;
   username: string;
   location: string;
@@ -41,8 +40,7 @@ class User {
   avatartUrl: string;
   dateCreated: Date;
 
-  constructor(id, name, username, location, avatartId) {
-    this.id = id;
+  constructor(name, username, location, avatartId) {
     this.name = name;
     this.username = username;
     this.location = location;
@@ -55,14 +53,12 @@ class User {
 
 
 class Post {
-  id: number;
   title: string;
   dateCreated: Date;
   authorId: number;
   content: string;
 
-  constructor(id: number, title: string, authorId: number) {
-    this.id = id;
+  constructor(title: string, authorId: number) {
     this.title = title;
     this.dateCreated = getRandomDate();
     this.authorId = authorId;
@@ -90,25 +86,20 @@ export class Generator {
     let counter = 0
     USERS.forEach(user => {
       counter++;
-      users.insert(new User(counter, user[0], user[1], user[2], counter));
+      users.insert(new User(user[0], user[1], user[2], counter));
     });
   }
 
   generatePosts(posts) {
-    let id;
     let title;
     let titleIdx;
     let authorId;
     for (let i = 0; i < USERS.length; i++) {
       for (let j = 0; j < POSTS_PER_USER; j++) {
-        id = i == 0
-          ? j
-          : parseInt((i + '') + (j + ''));
         titleIdx = Math.floor(Math.random() * POST_TITLES.length - 1);
         title = POST_TITLES[titleIdx];
-        id = (id + 1);
         authorId = (i + 1);
-        posts.insert(new Post(id, title, authorId));
+        posts.insert(new Post(title, authorId));
       }
     }
   }
