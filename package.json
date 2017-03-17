@@ -6,8 +6,8 @@
   "scripts": {
     "tsc": "tsc",
     "tsc:watch": "tsc --w",
-    "test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/spec/ --autotest --color\"",
-    "test:once": "npm run tsc && jasmine-node spec/",
+    "server:test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/test/ --autotest --color\"",
+    "server:test:once": "npm run tsc && jasmine-node test/",
     "serve": "tsc && concurrently \"tsc -w\" \"supervisor ./dist/server.js\""
   },
   "author": "Paul Samsotha <paulsamsotha@gmail.com>",
@@ -25,6 +25,7 @@
     "@types/lokijs": "^1.2.30",
     "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.8",
+    "concurrently": "^3.4.0",
     "jasmine-node": "^1.14.5",
     "typescript": "^2.2.1"
   }

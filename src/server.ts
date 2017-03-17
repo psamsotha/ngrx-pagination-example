@@ -3,8 +3,8 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as loki from 'lokijs';
 
-import { configureDatabase } from './app/database';
-import { configureRoutes } from './app/routes';
+import { configureDatabase } from './backend/database';
+import { configureRoutes } from './backend/routes';
 
 const app = express();
 

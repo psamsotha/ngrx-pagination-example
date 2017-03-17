@@ -1,4 +1,4 @@
-import { AbstractResource, Resource } from '../../app/resource';
+import { AbstractResource, Resource } from '../../resource';
 
 
 describe('resource', () => {

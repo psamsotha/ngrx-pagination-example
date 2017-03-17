@@ -1,4 +1,4 @@
-import { AbstractResource, PagedResource } from '../../app/resource';
+import { AbstractResource, PagedResource } from '../../resource';
 
 
 describe('resource', () => {

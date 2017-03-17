@@ -1,4 +1,4 @@
-import { Link } from '../../app/resource';
+import { Link } from '../../resource';
 
 
 describe('resource', () => {

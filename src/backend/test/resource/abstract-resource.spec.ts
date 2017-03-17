@@ -1,4 +1,4 @@
-import { AbstractResource } from '../../app/resource';
+import { AbstractResource } from '../../resource';
 
 
 class DummyResource extends AbstractResource {}
