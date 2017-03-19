@@ -1,8 +1,8 @@
-import { Resource } from './resource';
+import { Resource } from './resource-single';
 
 
 export interface UserData {
-  id?: number;
+  id: number;
   name?: string;
   username?: string;
   location?: string;
@@ -22,8 +22,4 @@ export class UserResource extends Resource {
   email: string;
   avatarUrl: string;
   dateCreated: Date;
-
-  constructor(data: UserData) {
-    super(data);
-  }
 }

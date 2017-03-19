@@ -37,16 +37,16 @@ class User {
   location: string;
   password: string;
   email: string;
-  avatartUrl: string;
+  avatarUrl: string;
   dateCreated: Date;
 
-  constructor(name, username, location, avatartId) {
+  constructor(name, username, location, avatarId) {
     this.name = name;
     this.username = username;
     this.location = location;
     this.password = 'secret';
     this.email = this.username + '@email.com';
-    this.avatartUrl = 'http://lorempixel.com/200/200/people/' + avatartId;
+    this.avatarUrl = 'http://lorempixel.com/200/200/people/' + avatarId;
     this.dateCreated = getRandomDate();
   }
 }

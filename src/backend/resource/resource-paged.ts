@@ -1,4 +1,4 @@
-import { AbstractResource } from './abstract-resource';
+import { AbstractResource } from './resource-abstract';
 import { Link } from './link';
 
 
@@ -42,5 +42,9 @@ export class PagedResource extends AbstractResource {
   addLastLink(href: string) {
     this.addLink(Link.REL_LAST, href);
     return this;
+  }
+
+  fromData(data: any): PagedResource {
+    return null
   }
 }

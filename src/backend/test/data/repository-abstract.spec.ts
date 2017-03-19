@@ -1,7 +1,6 @@
 import * as loki from 'lokijs';
 
 import { PostData } from '../../resource';
-import { Generator } from '../../data/generator';
 import { AbstractRepository, PageRequest, Page, Sort } from '../../data';
 import { DEFAULT_PAGE_SIZE } from '../../constants';
  
@@ -21,7 +20,6 @@ describe('data', () => {
     beforeEach(() => {
       const db = new loki('example.db');
       posts = db.addCollection('posts');
-      // new Generator().generatePosts(posts);
 
       repo = new PostsRepository(db);
     });

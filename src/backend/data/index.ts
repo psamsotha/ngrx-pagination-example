@@ -5,19 +5,22 @@ import { Express } from 'express'
 
 
 export { Page, PageRequest, Sort } from './paging';
-export { Repository, AbstractRepository } from './repository';
+export { Repository, AbstractRepository } from './repository-abstract';
+export { UserRepository } from './repository-user';
+export { PostRepository } from './repository-post';
 
 
-export function configureDatabase(app: Express) {
+export function configureData(app: Express) {
+
   const db = new loki('example.db');
   const generator = new Generator();
 
-  const users = db.addCollection('users', { unique: ['id'] });
-  const posts = db.addCollection('posts', { unique: ['id'] });
+  const users = db.addCollection('users');
+  const posts = db.addCollection('posts');
 
   generator.generateUsers(users);
   generator.generatePosts(posts);
 
   app.set('db', db);
-}
 
+}

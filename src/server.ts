@@ -2,24 +2,42 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as loki from 'lokijs';
+import * as errorHandler from 'errorhandler';
 
-import { configureDatabase } from './backend/data';
+import { configureData } from './backend/data';
 import { configureRoutes } from './backend/routes';
+import { ErrorMessage } from './backend/core';
+
+
+const port = process.env.PORT || 3000;
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000/api/';
 
 const app = express();
 
+app.set('port', port);
 app.set('json spaces', 2);
 app.set('etag', 'strong');
-app.set('baseUrl', 'http://localhost:3000');
+app.set('baseUrl', baseUrl);
 
 app.use(logger('common'));
 app.use(bodyParser.json());
 
-configureDatabase(app);
+
+configureData(app);
 configureRoutes(app);
 
 
-app.listen(3000, () => {
-  console.log('server app listening on 3000...');
+if (app.get('env') === 'development') {
+  app.use(errorHandler());
+} else {
+  app.use(function (err, req, res, next) {
+    res.json(new ErrorMessage(500, err.message));
+    return next();
+  });
+}
+
+
+app.listen(app.get('port'), () => {
+  console.log(`server app listening on ${app.get('port')}...`);
 });
 

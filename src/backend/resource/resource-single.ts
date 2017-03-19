@@ -1,4 +1,4 @@
-import { AbstractResource } from './abstract-resource';
+import { AbstractResource } from './resource-abstract';
 
 
 export class Resource extends AbstractResource {

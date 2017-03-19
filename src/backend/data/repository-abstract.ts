@@ -32,7 +32,7 @@ export abstract class AbstractRepository<T extends Entity> implements Repository
     if (!result) {
       return null;
     }
-    return Object.assign({}, result);
+    return this.cleanMetadata(result);
   }
 
   findAllPaged(request: PageRequest): Page<T> {
@@ -59,36 +59,30 @@ export abstract class AbstractRepository<T extends Entity> implements Repository
       : items
         .slice(offset, offset + size);
 
-    const copied = this.copyItems(filtered);
-    return new Page<T>(copied, request, count);
+    const cleaned = this.cleanMetadata(filtered)
+    return new Page<T>(cleaned, request, count);
   }
 
   findAll(): T[] {
-    return this.copyItems(this.db.getCollection(this.collName).find());
+    return this.cleanMetadata(this.db.getCollection(this.collName).find());
   }
 
   save(t: T): T {
     const coll = this.db.getCollection(this.collName);
 
     if (typeof t.id === 'undefined') {
-      return coll.insert(t);
+      return this.cleanMetadata(coll.insert(t));
     }
 
-    let item = this.findOne(t.id);
+    let item = coll.get(t.id);
     if (!item) {
-      return coll.insert(t);
+      const saved = coll.insert(t);
+      return this.cleanMetadata(saved);
     } else {
-      let updated = Object.assign({}, item, t);
-      coll.update(updated);
-      return updated;
+      item = Object.assign(item, t);
+      coll.update(item);
+      return this.cleanMetadata(item);
     }
-  }
-
-  protected copyItems(items: T[]) {
-    return items.reduce((result, item) => {
-      result.push(Object.assign({}, item));
-      return result;
-    }, []);
   }
 
   protected getSortFn(sort: Sort): (a, b) => any {
@@ -115,5 +109,21 @@ export abstract class AbstractRepository<T extends Entity> implements Repository
         }
       }
     }
+  }
+
+  private cleanMetadata(lokiData) {
+    if (Object.prototype.toString.call(lokiData) === '[object Array]') {
+      return lokiData.map(obj => {
+        return this.cleanObject(obj)
+      })
+    }
+    return this.cleanObject(lokiData)
+  }
+
+  private cleanObject(obj) {
+    const result = Object.assign({}, obj, {id: obj['$loki']})
+    delete result['meta']
+    delete result['$loki']
+    return result
   }
 }

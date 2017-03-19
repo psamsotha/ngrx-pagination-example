@@ -4,6 +4,7 @@
   "description": "Server for NgRx pagination blog article",
   "main": "server.js",
   "scripts": {
+    "start": "npm run serve",
     "tsc": "tsc",
     "tsc:watch": "tsc --w",
     "server:test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/backend/test/ --autotest --color\"",
@@ -26,6 +27,7 @@
     "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.8",
     "concurrently": "^3.4.0",
+    "errorhandler": "^1.5.0",
     "jasmine-node": "^1.14.5",
     "typescript": "^2.2.1"
   }

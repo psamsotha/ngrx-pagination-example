@@ -1,7 +1,8 @@
 
 export { Link } from './link';
-export { AbstractResource } from './abstract-resource';
-export { Resource } from './resource';
-export { PagedResource } from './paged-resource';
-export { PostResource, PostData } from './post-resource';
-export { UserData, UserResource } from './user-resource';
+export { AbstractResource } from './resource-abstract';
+export { Resource } from './resource-single';
+export { PagedResource } from './resource-paged';
+export { PostResource, PostData } from './resource-post';
+export { UserData, UserResource } from './resource-user';
+export { ResourceTransformer } from './resource-transformer';
