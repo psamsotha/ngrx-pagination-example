@@ -6,12 +6,14 @@ export interface Repository<T> {
   findAll(): T[]
   findAllPaged(request: PageRequest): Page<T>;
   findOne(id: number): T;
-  save(t: T): T;
+  create(t: T): T;
+  update(t: T): T;
 }
 
 
 export interface Entity {
   id: number;
+  dateCreated: Date;
 }
 
 
@@ -67,22 +69,20 @@ export abstract class AbstractRepository<T extends Entity> implements Repository
     return this.cleanMetadata(this.db.getCollection(this.collName).find());
   }
 
-  save(t: T): T {
+  create(t: T): T {
     const coll = this.db.getCollection(this.collName);
 
-    if (typeof t.id === 'undefined') {
-      return this.cleanMetadata(coll.insert(t));
-    }
+    t.dateCreated = new Date();
+    return this.cleanMetadata(coll.insert(t));
+  }
 
-    let item = coll.get(t.id);
-    if (!item) {
-      const saved = coll.insert(t);
-      return this.cleanMetadata(saved);
-    } else {
-      item = Object.assign(item, t);
-      coll.update(item);
-      return this.cleanMetadata(item);
-    }
+  update(t: T): T {
+    const coll = this.db.getCollection(this.collName);
+    const item = coll.get(t.id);
+    const updated = Object.assign(item, t);
+
+    coll.update(updated);
+    return this.cleanMetadata(updated);
   }
 
   protected getSortFn(sort: Sort): (a, b) => any {

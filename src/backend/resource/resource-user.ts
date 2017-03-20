@@ -9,7 +9,7 @@ export interface UserData {
   password?: string;
   email?: string;
   avatarUrl?: string;
-  dateCreated?: Date;
+  dateCreated: Date;
 }
 
 

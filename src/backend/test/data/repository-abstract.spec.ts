@@ -48,35 +48,29 @@ describe('data', () => {
       });
     });
 
-    describe('save()', () => {
+
+    describe('create()', () => {
       it('should save new item', () => {
-        repo.save({ content: 'data' } as PostData);
+        repo.create({ content: 'data' } as PostData);
 
         const item = posts.get(1);
 
         expect(item).toBeTruthy();
         expect(item.content).toBe('data');
       });
+    });
 
-      it('should save new item if item with id is not found', () => {
-        posts.insert({ content: 'one' });
-        repo.save({ id: 5000, content: 'data' } as PostData);
 
-        const item = posts.get(2);
-
-        expect(item).toBeTruthy();
-        expect(item.content).toBe('data');
-      });
-
+    describe('update()', () => {
       it('should update item', () => {
         posts.insert({ content: 'one' });
-        repo.save({ id: 1, content: 'updated' } as PostData);
+        repo.update({ id: 1, content: 'updated' } as PostData);
 
         const item = posts.get(1);
 
         expect(item.content).toBe('updated');
       });
-    });
+    })
 
     describe('findAllPaged()', () => {
       beforeEach(() => {

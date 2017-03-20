@@ -1,6 +1,7 @@
 import { AbstractRepository } from './repository-abstract';
 import { PageRequest, Page } from './paging';
 import { PostData } from '../resource';
+import { ErrorTypes, typedError } from '../core';
 
 
 export class PostRepository extends AbstractRepository<PostData> {
@@ -33,15 +34,25 @@ export class PostRepository extends AbstractRepository<PostData> {
     return post;
   }
 
-  save(post: PostData) {
+  create(post: PostData): PostData {
     if (typeof post.authorId === 'undefined') {
-      throw new Error('A post cannot be created without an authorId');
+      throw typedError('A post cannot be created without an authorId',
+        ErrorTypes.CLIENT_DATA_ERROR);
     }
     const user = this.users.get(post.authorId);
     if (!user) {
-      throw new Error(`User with id ${post.authorId} no found.`);
+      throw typedError(`User with id ${post.authorId} no found.`,
+        ErrorTypes.CLIENT_DATA_ERROR);
     }
-    return super.save(post);
+    const created = super.create(post);
+    this.addUsersToPosts([created]);
+    return created;
+  }
+
+  update(post: PostData): PostData {
+    const updated = super.update(post);
+    this.addUsersToPosts([updated])
+    return updated;
   }
 
   private addUsersToPosts(posts): void {

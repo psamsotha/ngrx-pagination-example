@@ -56,7 +56,7 @@ describe('routes', () => {
     describe('create()', () => {
       it('should send created resource', () => {
         const data = { id: 1, content: 'data' };
-        spyOn(repo, 'save').andReturn(data);
+        spyOn(repo, 'create').andReturn(data);
 
         const result = handler.create(req, res);
 
@@ -72,27 +72,39 @@ describe('routes', () => {
       it('should send 404 when resource not found', () => {
         spyOn(repo, 'findOne').andReturn(null);
 
+        req['id'] = 1;
+        req.body = {id: 1};
         const result = handler.update(req, res);
 
         expect(result.sendStatus).toHaveBeenCalledWith(404);
       });
 
+      it('should throw error when id and URL id dont match', () => {
+        req['id'] = 1;
+        req.body = {id: 2};
+
+        expect(() => handler.update(req, res)).toThrow();
+      });
+
       it('should save the body', () => {
         const data = { id: 1, content: 'data' };
-        req.body = data;
-
+        
         spyOn(repo, 'findOne').andReturn(data);
-        spyOn(repo, 'save');
+        spyOn(repo, 'update');
 
+        req.body = data;
+        req['id'] = 1;
         const result = handler.update(req, res);
 
-        expect(repo.save).toHaveBeenCalledWith(data);
+        expect(repo.update).toHaveBeenCalledWith(data);
       });
 
       it('should send 204 status', () => {
         const data = { id: 1, content: 'data' };
         spyOn(repo, 'findOne').andReturn(data);
 
+        req.body = data;
+        req['id'] = 1;
         const result = handler.update(req, res);
 
         expect(result.sendStatus).toHaveBeenCalledWith(204);
@@ -132,7 +144,8 @@ class MockPostRepository implements Repository<any> {
   findAll(): any[] { return null; }
   findAllPaged(request: PageRequest): Page<any> { return null; }
   findOne(id: number): any { return null; }
-  save(data: any): any { return null; }
+  create(data: any): any { return null; }
+  update(data: any): any { return null; }
 }
 
 class TestAbstractHandler extends AbstractHandler<PostData, PostResource> {

@@ -2,6 +2,7 @@ import { Type } from '../core';
 import { Repository, PageRequest, Page, Sort } from '../data';
 import { Express, Request, Response, RequestHandler } from 'express';
 import { AbstractResource, PagedResource, Resource, Link, ResourceTransformer } from '../resource';
+import { ErrorTypes, typedError } from '../core';
 
 
 export interface Handler {
@@ -52,7 +53,7 @@ export abstract class AbstractHandler<U, T extends Resource> implements Handler 
 
   create(req: Request, res: Response) {
     const body = req.body;
-    const created = this.getRepository().save(body);
+    const created = this.getRepository().create(body);
     const resource = this.transform(
       <T>new this.resourceType(created),
       req);
@@ -65,12 +66,24 @@ export abstract class AbstractHandler<U, T extends Resource> implements Handler 
 
   update(req: Request, res: Response) {
     const id = req['id'];
+    const body = req.body;
+
+    if (typeof body.id === 'undefined') {
+      throw typedError('there is no "id" property in the request body',
+        ErrorTypes.CLIENT_DATA_ERROR);
+    }
+
+    if (body.id !== id) {
+      throw typedError('the request body "id" and URL id do not match',
+        ErrorTypes.CLIENT_DATA_ERROR);
+    }
+
     const inStore = this.getRepository().findOne(id);
     if (!inStore) {
       return res.sendStatus(404);
     }
-    const body = req.body;
-    const updated = this.getRepository().save(body);
+    
+    const updated = this.getRepository().update(body);
 
     return res.sendStatus(204);
   }

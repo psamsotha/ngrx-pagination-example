@@ -5,11 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "npm run serve",
-    "tsc": "tsc",
-    "tsc:watch": "tsc --w",
-    "server:test": "tsc && concurrently \"tsc -w\" \"jasmine-node dist/backend/test/ --autotest --color\"",
-    "server:test:once": "npm run tsc && jasmine-node test/",
-    "serve": "tsc && concurrently \"tsc -w\" \"supervisor ./dist/server.js\""
+    "clean": "rimraf dist",
+    "tsc": "npm run clean && tsc",
+    "tsc:watch": "npm run clean && tsc --w",
+    "server:test": "npm run clean && tsc && concurrently \"tsc -w\" \"jasmine-node dist/backend/test/ --autotest --color\"",
+    "server:test:once": "npm run clean && tsc && jasmine-node test/",
+    "serve": "npm run clean && tsc && concurrently \"tsc -w\" \"supervisor ./dist/server.js\""
   },
   "author": "Paul Samsotha <paulsamsotha@gmail.com>",
   "license": "ISC",
@@ -26,9 +27,12 @@
     "@types/lokijs": "^1.2.30",
     "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.8",
+    "@types/supertest": "^2.0.0",
     "concurrently": "^3.4.0",
     "errorhandler": "^1.5.0",
     "jasmine-node": "^1.14.5",
+    "rimraf": "^2.6.1",
+    "supertest": "^3.0.0",
     "typescript": "^2.2.1"
   }
 }

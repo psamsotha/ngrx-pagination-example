@@ -23,21 +23,39 @@ export function configureRoutes(app: Express) {
   app.param('id', (req: Request, res: Response, next: NextFunction, id: any) => {
     const parsed = parseInt(id);
     if (isNaN(parsed)) {
-      return res.status(404)
+      res.status(404)
         .json(new ErrorMessage(404, 'id parameter must be a number'));
+      return next();
     }
-    req['id'] = id;
+    req['id'] = parsed;
     return next();
   });
 
-  
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.method.toLowerCase() === 'post'
+      || req.method.toLowerCase() === 'put') {
+      if (!req.header('content-type')) {
+        return res.status(400)
+          .json(new ErrorMessage(400, 'expected Content-Type header'));
+      }
+
+      if (req.header('content-type').indexOf('application/json') == -1) {
+        return res.status(400)
+          .json(new ErrorMessage(400, 'only application/json data allowed'))
+      }
+    }
+    return next();
+  });
+
+
   const userHandler = new UserHandler(app);
   app.get('/api/users', userHandler.getAll.bind(userHandler));
   app.put('/api/users/:id', userHandler.update.bind(userHandler))
   app.get('/api/users/:id', userHandler.getById.bind(userHandler));
   app.post('/api/users', userHandler.create.bind(userHandler));
 
-  
+
   const postHandler = new PostHandler(app);
   app.get('/api/posts', postHandler.getAll.bind(postHandler));
   app.put('/api/posts/:id', postHandler.update.bind(postHandler));

@@ -23,4 +23,5 @@ export function configureData(app: Express) {
 
   app.set('db', db);
 
+  return db;
 }
